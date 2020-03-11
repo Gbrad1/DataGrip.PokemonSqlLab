@@ -63,10 +63,28 @@ How many pokemon have the secondary type Poison? 31
 $ SELECT * FROM pokemons WHERE secondary_type = '7';
 
 What are all the primary types and how many pokemon have that type?
-$
+$ SELECT primary_type, count(*) AS num FROM poikemons GROUP BY primary_type;
 
-How many pokemon at level 100 does each traier with at leas one level 100 pokemon have? 963
-$ FROM pokemon_trainer WHERE pokelevel = '100';
+How many pokemon at level 100 does each traier with at least one level 100 pokemon have? 963
+$ SELECT * FROM pokemon_trainer WHERE pokelevel = '100';
 
-How many pokemon only belong to one trainer and no other?
-$ 
+How many pokemon only belong to one trainer and no other? 13
+$ SELECT pokemon_id, count(*) FROM pokemon_trainer GROUP BY pokemon_id HAVING count (*) = 1;
+
+********Part4********
+//currently working query
+SELECT poke.name AS "Pokemon",
+trainername AS "Trainer Name",
+pokelevel AS "Level",
+defense AS "Defense",
+maxhp AS "maxHP",
+spdef AS "spDef",
+typeP.name AS "Primary Type",
+typeS.name AS "Secondary Type"
+FROM pokemon.trainers AS pokeBall
+LEFT JOIN pokemon_trainer AS pt ON pokeBall.trainerID = pt.trainerID
+LEFT JOIN pokemons AS poke ON poke.id = pt.pokemon_id
+LEFT JOIN types AS typeP ON poke.primary_type = typeP.id
+LEFT JOIN types AS typeS ON poke.secondary_type = typeS.id
+GROUP BY poke.name, pokeBall.trainername, pokelevel, defense, maxhp, spDef, typeP.name, typeS.name
+ORDER BY AVG(defense + maxHP + spDef);
