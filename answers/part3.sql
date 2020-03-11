@@ -1,14 +1,16 @@
 What is each pokemons primary type?
-$ SELECT primary_type FROM pokemons;
+$ SELECT pokemons.name, types.name FROM pokemons
+INNER JOIN types ON pokemons.primary_type = types.id;
 
 What is Rufflets secondary type? 18 = Flying
-$ SELECT secondary_type FROM pokemons WHERE name = 'rufflet';
-$ SELECT * FROM types;
+SELECT pokemons.name, types.name AS "Secondary Type" FROM pokemons
+INNER JOIN types ON pokemons.secondary_type = types.id WHERE pokemons.name = 'Rufflet';
 
-What are the names of the pokemon that belong to their trainter with trainerID 303? Ace, Duo, Elina, and Sean.
-$ SELECT * FROM trainers WHERE trainerID = '303';
+What are the names of the pokemon that belong to their trainer with trainerID 303? Wailord and Vileplume
+$ SELECT pokemons.name, pokemon_trainer.trainerID FROM pokemons
+INNER JOIN pokemon_trainer ON pokemons.id = pokemon_trainer.pokemon_id WHERE pokemon_trainer.trainerID = '303';
 
-How many pokemon have the secondary type Poison? 31
+How many pokemon have the secondary type Poison? 31d
 $ SELECT * FROM pokemons WHERE secondary_type = '7';
 
 What are all the primary types and how many pokemon have that type?
